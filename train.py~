@@ -52,12 +52,13 @@ model.fit(X_train, y_train) # Train model
 # Predict with testset
 y_pred = model.predict(X_test)
 
-# RMSE - Root Mean Squared Error
+# RMSE
 rmse = {y.columns[i]: np.sqrt(mean_squared_error(y_test.iloc[:, i], y_pred[:, i])) for i in range(y_test.shape[1])}
 
 # Print RMSE
-print("RMSE for analysability, changeability en testability:", rmse)
+print("RMSE analysability, changeability en testability:", rmse)
 
+# Sla het model en de encoder op
 joblib.dump(model, 'quality_prediction_linear_model_with_oss_categories.joblib')
 joblib.dump(encoder, 'oss_category_encoder_with_oss_categories.joblib')
 

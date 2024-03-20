@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import joblib
-import argparse  # argument via terminal
+import argparse  # Import argparse voor command-line argumenten
 
 # load model and encoder
 model = joblib.load('quality_prediction_linear_model_with_oss_categories.joblib')
@@ -29,7 +29,7 @@ def predict_future_quality(current_oss_category, current_rankings):
         category_encoded = encoder.transform(input_df)
         features = np.hstack((category_encoded, np.array(current_rankings).reshape(1, -1)))
         future_rankings_predicted = model.predict(features)
-        # min 1 max 5
+        # keep range 1..5
         future_rankings_predicted = np.clip(future_rankings_predicted, 1, 5)
         
         #predictions[future_category] = future_rankings_predicted[0]
@@ -48,18 +48,20 @@ if __name__ == "__main__":
 
 
     if args.current_oss_category not in encoder.categories_[0]:
-        print("Unknown OSS category...")
-        
+        print("OSS-categorie is onbekend. Voer een bekende categorie in.")
+        # Voer hier actie uit, bijv. de voorspelling overslaan of een standaardwaarde teruggeven
     else:
-        
+        # Voer voorspelling uit zoals normaal
+
         # predict
         predictions = predict_future_quality(args.current_oss_category, args.rankings)
         
+        # Print predictions
         for future_category, metrics in predictions.items():
             print(f"{future_category}:")
             for metric, (ranking_symbol, ranking_value) in metrics.items():
                 print(f"  {metric}: {ranking_symbol} ({ranking_value:.2f})")
-            print("===========================")
+            print("=================================")
 
 
 
