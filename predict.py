@@ -36,7 +36,7 @@ def predict_future_rankings_based_on_current_state(current_oss_category, current
         
         # merge with rankings
         features = np.hstack((categories_encoded, np.array(current_rankings).reshape(1, -1)))
-        
+#        print(features)
         # use the trained model to predict with the features
         future_rankings_predicted = model.predict(features)
         

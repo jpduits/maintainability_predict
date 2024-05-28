@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.preprocessing import OneHotEncoder
 import numpy as np
 import joblib
@@ -57,6 +57,12 @@ rmse = {y.columns[i]: np.sqrt(mean_squared_error(y_test.iloc[:, i], y_pred[:, i]
 
 # Print RMSE
 print("RMSE for analysability, changeability en testability:", rmse)
+
+
+# R-kwadraat
+r_squared = r2_score(y_test, y_pred)
+print(f"R-kwadraat voor het model: {r_squared}")
+
 
 joblib.dump(model, 'quality_prediction_linear_model_with_oss_categories.joblib')
 joblib.dump(encoder, 'oss_category_encoder_with_oss_categories.joblib')
